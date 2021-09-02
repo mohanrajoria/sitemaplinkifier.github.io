@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Sitemap linkifier</h2>
+    <input id="url" name="url" value="" placeholder="Enter url" />
+    <button type="button" onclick="onClick()">Linkify</button>
+    <div id="content" />
+    <script type="text/javascript">
+      // const urlRegex = new RegExp("^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
+      function onClick() {
+        const url = document.getElementById('url').value;
+        document.getElementById("content").innerHTML = "Processing...";
+        let isValidUrl = true;
+        // let isValidUrl = urlRegex.match(url);
+        if (isValidUrl) {
+          loadXMLDoc(url);
+        } else {
+          document.getElementById("content").innerHTML = "Invalid url.";
+        }
+      }
+
+      function loadXMLDoc(xmlUrl) {
+        const url = document.getElementById();
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            myFunction(this);
+          }
+        };
+        xmlhttp.open("GET", xmlUrl, true);
+        xmlhttp.send();
+      }
+
+      function myFunction(xml) {
+        var x, i, xmlDoc;
+        xmlDoc = xml.responseXML;
+        let parsedContent = "";
+        x = xmlDoc.getElementsByTagName("loc");
+        for (i = 0; i < x.length; i++) {
+          const pageUrl = x[i].childNodes[0].nodeValue;
+          parsedContent += "<a href='" + pageUrl + "' target='_blank' "  + "</a>" + pageUrl + "<br>";
+        }
+        document.getElementById("content").innerHTML = parsedContent;
+      }
+    </script>
+  </body>
+</html>
+
